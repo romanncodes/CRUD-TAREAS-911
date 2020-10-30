@@ -1,7 +1,26 @@
 <?php
+//INSTRUCCIONES PARA MOSTRAR LOS POSIBLES ERRORES EN PHP
+
+use models\TareaModel as TareaModel;
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+require_once("models/TareaModel.php");
+
+$model = new TareaModel();
+$tareas = $model->getAllTareas();
+$prueba = $model->buscarTarea(2);
+
+$model->eliminarTarea(1);
+$model->editarTarea(3, ['nombre' => 'Tarea #3', 'descripcion' => 'Estudiar Materialize']);
+
+print_r($prueba);
+echo count($prueba);
+//echo json_encode($tareas);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +31,7 @@ error_reporting(E_ALL);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -20,12 +39,18 @@ error_reporting(E_ALL);
     <div class="container">
         <div class="row">
             <div class="col l4 m4 s12">
-                <h4>Crud Tareas</h4>
+                <h4 class="center">Nueva Tarea</h4>
                 <form action="controllers/ControlInsert.php" method="POST">
-                    <input type="text" name="nombre" placeholder="Nombre de la tarea">
-                    <br>
-                    <input type="text" name="descripcion" placeholder="Descripcion de la tarea">
-                    <br><br>
+                    <div class="input-field">
+                        <input id="nombre" type="text" name="nombre">
+                        <label for="nombre">Nombre</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input id="descripcion" type="text" name="descripcion">
+                        <label for="descripcion">Descripción</label>
+                    </div>
+
                     <button class="btn">Guardar Tarea</button>
                 </form>
 
@@ -40,9 +65,33 @@ error_reporting(E_ALL);
                 </p>
             </div>
             <div class="col l8 m8 s12">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae eum dolore fuga eius in architecto, aperiam perspiciatis, eos asperiores delectus ipsa fugiat! Molestiae, consequatur omnis qui blanditiis aperiam quod enim!
-                </p>
+                <h4 class="center">Listado de Tareas</h4>
+
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tarea</th>
+                        <th>Descripcion</th>
+                        <th></th>
+                    </tr>
+                    <?php foreach ($tareas as $item) { ?>
+                        <tr>
+                            <td> <?= $item["id"] ?> </td>
+                            <td> <?= $item["nombre"] ?> </td>
+                            <td> <?= $item["descripcion"] ?> </td>
+                            <td>
+                                <button class="btn-floating orange">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button class="btn-floating red">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                    <?php } ?>
+
+
+                </table>
             </div>
         </div>
     </div>
