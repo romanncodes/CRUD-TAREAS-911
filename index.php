@@ -44,14 +44,16 @@ echo count($prueba);
 <body>
 
     <div class="container">
+
         <div class="row">
             <div class="col l4 m4 s12">
                 <?php if (!isset($_SESSION['editar'])) { ?>
                     <h4 class="center">Nueva Tarea</h4>
                     <form action="controllers/ControlInsert.php" method="POST">
                         <div class="input-field">
-                            <input id="nombre" type="text" name="nombre">
+                            <input id="nombre" type="text" name="nombre" class="validate" required>
                             <label for="nombre">Nombre</label>
+                            <span class="helper-text" data-error="wrong" data-success="right"></span>
                         </div>
 
                         <div class="input-field">
@@ -125,7 +127,6 @@ echo count($prueba);
                             </tr>
                         <?php } ?>
 
-
                     </table>
                 </form>
             </div>
@@ -134,6 +135,9 @@ echo count($prueba);
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+
 </body>
 
 </html>

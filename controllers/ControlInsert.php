@@ -13,6 +13,7 @@ class ControlInsert
 
     public function __construct()
     {
+
         $this->nombre = $_POST['nombre'];
         $this->descripcion = $_POST['descripcion'];
     }
@@ -38,7 +39,28 @@ class ControlInsert
 
         header("Location: ../index.php");
     }
+    public function guardarTarea2()
+    {
+
+        if ($this->nombre == "" || $this->descripcion == "") {
+            $msg = ["msg" => "Campos Vacios"];
+            echo json_encode($msg);
+            return;
+        }
+
+        $model = new TareaModel();
+        $data = ["nombre" => $this->nombre, "descripcion" => $this->descripcion];
+
+        $count = $model->insertar($data);
+        if ($count == 1) {
+            $msg = ["msg" => "Tarea Creada con Exito"];
+        } else {
+            $msg = ["msg" => "Hubo un error en la base de datos"];
+        }
+
+        echo json_encode($msg);
+    }
 }
 
 $obj = new ControlInsert();
-$obj->guardarTarea();
+$obj->guardarTarea2();
