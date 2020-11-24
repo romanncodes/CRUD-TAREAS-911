@@ -44,7 +44,7 @@ class ControlInsert
 
         if ($this->nombre == "" || $this->descripcion == "") {
             $msg = ["msg" => "Campos Vacios"];
-            echo json_encode($msg);
+            echo json_encode($msg); //{"msg":"campos vacios"}
             return;
         }
 
